@@ -136,17 +136,17 @@ public class PokerTableController {
 	@FXML
 	private void handleP2SitLeave() {		
 		int iPlayerPosition = 2;
-		handleSitLeave(bP1Sit, iPlayerPosition, lblP2Name, txtP2Name, btnP2SitLeave);
+		handleSitLeave(bP2Sit, iPlayerPosition, lblP2Name, txtP2Name, btnP2SitLeave);
 	}
 	@FXML
 	private void handleP3SitLeave() {		
 		int iPlayerPosition = 3;
-		handleSitLeave(bP1Sit, iPlayerPosition, lblP3Name, txtP3Name, btnP3SitLeave);
+		handleSitLeave(bP3Sit, iPlayerPosition, lblP3Name, txtP3Name, btnP3SitLeave);
 	}
 	@FXML
 	private void handleP4SitLeave() {		
-		int iPlayerPosition = 3;
-		handleSitLeave(bP1Sit, iPlayerPosition, lblP4Name, txtP4Name, btnP4SitLeave);
+		int iPlayerPosition = 4;
+		handleSitLeave(bP4Sit, iPlayerPosition, lblP4Name, txtP4Name, btnP4SitLeave);
 	}
 
 	private void handleSitLeave(boolean bSit, int iPlayerPosition, Label lblPlayer, TextField txtPlayer, ToggleButton btnSitLeave)
@@ -159,12 +159,37 @@ public class PokerTableController {
 			btnSitLeave.setText("Leave");
 			txtPlayer.setVisible(false);
 			bSit = true;
+			resetSeat(iPlayerPosition, true); 
 		} else {
 			mainApp.RemovePlayerFromTable(iPlayerPosition);
 			btnSitLeave.setText("Sit");
 			txtPlayer.setVisible(true);
 			lblPlayer.setVisible(false);
 			bSit = false;
+			resetSeat(iPlayerPosition, false); 
+			
+			
+		}
+	}
+	
+	public void resetSeat(int player, boolean b) { 
+		switch (player) { 
+			case 1: {
+				this.bP1Sit = b;
+				break;
+			}
+			case 2: { 
+				this.bP2Sit = b;
+				break; 
+			}
+			case 3: {
+				this.bP3Sit = b;
+				break;
+			}
+			case 4: {
+				this.bP4Sit = b;
+				break; 
+			}
 		}
 	}
 	
