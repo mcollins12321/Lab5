@@ -49,6 +49,7 @@ public class PokerTableController {
 	private MainApp mainApp;
 	private GamePlay gme = null;
 	private int iCardDrawn = 0;
+	private Player PlayerCommon = new Player("Common",0);
 
 	@FXML
 	public AnchorPane APMainScreen;
@@ -200,6 +201,9 @@ public class PokerTableController {
 		
 		// Clear all players hands
 		hBoxP1Cards.getChildren().clear();
+		hBoxP2Cards.getChildren().clear();
+		hBoxP3Cards.getChildren().clear();
+		hBoxP4Cards.getChildren().clear();
 		
 		// Get the Rule, start the Game
 		Rule rle = new Rule(mainApp.getiGameType());
@@ -213,7 +217,13 @@ public class PokerTableController {
 			GPPH.setPlayer(p);
 			GPPH.setHand(new Hand());
 			gme.addGamePlayPlayerHand(GPPH);
+			DealFaceDownCards(gme.getNbrOfCards(),p.getiPlayerPosition());
 		}
+		GamePlayPlayerHand GPCH = new GamePlayPlayerHand();
+		GPCH.setGame(gme);
+		GPCH.setPlayer(PlayerCommon);
+		GPCH.setHand(new Hand());
+		gme.addGamePlayCommonHand(GPCH);
 
 		// Add a deck to the game
 		gme.setGameDeck(new Deck());
@@ -221,13 +231,13 @@ public class PokerTableController {
 		btnDraw.setVisible(true);
 		iCardDrawn = 0;
 
-		String strCard = "/res/img/b1fv.png";
+		//String strCard = "/res/img/b1fv.png";
 
-		for (int i = 0; i < gme.getNbrOfCards(); i++) {
-			ImageView img = new ImageView(new Image(getClass().getResourceAsStream(strCard), 75, 75, true, true));
-
-			hBoxP1Cards.getChildren().add(img);
-		}
+		//for (int i = 0; i < gme.getNbrOfCards(); i++) {
+		//	ImageView img = new ImageView(new Image(getClass().getResourceAsStream(strCard), 75, 75, true, true));
+//
+		//	hBoxP1Cards.getChildren().add(img);
+		//}
 
 		ImageView imgBottomCard = new ImageView(
 				new Image(getClass().getResourceAsStream("/res/img/b2fh.png"), 75, 75, true, true));
@@ -235,6 +245,31 @@ public class PokerTableController {
 		HboxCommonArea.getChildren().clear();
 		HboxCommonArea.getChildren().add(imgBottomCard);
 
+	}
+	
+	public void DealFaceDownCards(int nbrOfCards, int iPlayerPosition) {
+		HBox PlayerCardBox=null;
+		
+		switch(iPlayerPosition){
+			case 1:
+				PlayerCardBox = hBoxP1Cards;
+				break;
+			case 2:
+				PlayerCardBox = hBoxP2Cards;
+				break;
+			case 3:
+				PlayerCardBox = hBoxP3Cards;
+				break;
+			case 4:
+				PlayerCardBox = hBoxP4Cards;
+				break;
+		}
+		String strCard = "/res/img/bifv.png";
+		
+		for(int i=0; i < nbrOfCards; i++) {
+			ImageView img = new ImageView(new Image(getClass().getResourceAsStream(strCard),75,75,true,true));
+			PlayerCardBox.getChildren().add(img);
+		}
 	}
 	
 
