@@ -30,7 +30,7 @@ import poker.app.view.PokerTableController;
 import poker.app.view.RootLayoutController;
 import pokerBase.Player;
 import pokerBase.Table;
-import pokerEnums.eGame;
+import enums.eGame;
 
 public class MainApp extends Application {
 
@@ -39,6 +39,7 @@ public class MainApp extends Application {
 
 	
 	private Table tbl;
+	private eGame gType; 
 	
 	
 	
@@ -134,12 +135,12 @@ public class MainApp extends Application {
 		tbl.removePlayer(playerToRemove);		
 	}
 
-	public int getiGameType() {
-		return gme;
+	public eGame getiGameType() {
+		return gType;
 	}
 
-	public void setiGameType(eGame gme) {
-		this.gme = gme;
+	public void setiGameType(eGame g) {
+		this.gType = g;
 	}
 	
 	

@@ -177,7 +177,7 @@ public class PokerTableController {
 		hBoxP1Cards.getChildren().clear();
 		
 		// Get the Rule, start the Game
-		Rule rle = new Rule(eGame.FiveStud);
+		Rule rle = new Rule(mainApp.getiGameType());
 		gme = new GamePlay(rle);
 
 		// Add the seated players to the game

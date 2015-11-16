@@ -22,7 +22,7 @@ import pokerBase.GamePlayPlayerHand;
 import pokerBase.Hand;
 import pokerBase.Player;
 import pokerBase.Rule;
-import pokerEnums.eGame;
+import enums.eGame;
 
 
 /**
@@ -31,6 +31,10 @@ import pokerEnums.eGame;
  * elements can be placed.
  * 
  * @author Marco Jakob
+ */
+/**
+ * @author Vincent
+ *
  */
 public class RootLayoutController implements Initializable {
 
@@ -44,7 +48,6 @@ public class RootLayoutController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-	 
 /*		CheckMenuItem item1 = new CheckMenuItem("5 card stud");
         item1.selectedProperty().addListener(new ChangeListener(){
             @Override
@@ -138,31 +141,32 @@ public class RootLayoutController implements Initializable {
     private void handleShowBirthdayStatistics() {
     }
     
-    private eGame FiveStudOneJoker= new int FiveStudOneJoker;
+/*    private eGame FiveStudOneJoker= new int FiveStudOneJoker;
     private eGame FiveStudTwoJoker = new int FiveStudTwoJoker;
     private eGame FiveDraw = new int FiveDraw;
     private eGame SevenDraw = new int SevenDraw;
     private eGame TexasHoldEm = new int TexasHoldEm;
     private eGame Omaha = new int Omaha;
+    */
+    
     
     private void handle5CardJoker() {
-    	setiGameType(FiveStudOneJoker);
+    	mainApp.setiGameType(eGame.FiveStudOneJoker);
     }
-    
     private void handle5CardWildCardJoker() {
-    	setiGameType(FiveStudTwoJoker);
+    	mainApp.setiGameType(eGame.FiveStudTwoJoker);
     }
     private void handle5CardDraw() {
-    	setiGameType(FiveDraw);
+    	mainApp.setiGameType(eGame.FiveStud);
     }
     private void handle7CardDraw() {
-    	setiGameType(SevenDraw);
+    	mainApp.setiGameType(eGame.SevenDraw);
     }
     private void handleTexasHoldEm() {
-    	setiGameType(TexasHoldEm);
+    	mainApp.setiGameType(eGame.TexasHoldEm);
     }
     private void handleOmaha() {
-    	setiGameType(Omaha);
+    	mainApp.setiGameType(eGame.Omaha);
     }
     
     
