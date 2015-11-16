@@ -14,6 +14,7 @@ public class Rule {
 	private int NumberOfJokers;
 	private int CommunityCards;
 	private ArrayList<CardDomainModel> RuleCards = new ArrayList<CardDomainModel>();
+	private eGame Game;
 
 	public Rule(eGame gme) {
 		switch (gme) {
@@ -109,4 +110,12 @@ public class Rule {
 	{
 		return this.RuleCards;
 	}
+
+	/**
+	 * @return the game
+	 */
+	public eGame getGame() {
+		return Game;
+	}
+	
 }

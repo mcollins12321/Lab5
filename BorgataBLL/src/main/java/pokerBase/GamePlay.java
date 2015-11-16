@@ -15,8 +15,9 @@ public class GamePlay extends GamePlayDomainModel {
 
 	private ArrayList<Player> GamePlayers = new ArrayList<Player>();
 	private ArrayList<GamePlayPlayerHand> GamePlayerHand = new ArrayList<GamePlayPlayerHand>();
-	
+	private ArrayList<GamePlayPlayerHand> GameCommonHand = new ArrayList<GamePlayPlayerHand>();
 	private Deck GameDeck = null;
+	private Rule rle;
 	
 	public GamePlay(Rule rle)
 	{
@@ -25,6 +26,11 @@ public class GamePlay extends GamePlayDomainModel {
 		this.setMaxNbrOfPlayers(rle.GetMaxNumberOfPlayers());
 		this.setNbrOfJokers(rle.GetNumberOfJokers());
 		this.setWildCards(rle.GetRuleCards());
+		this.rle=rle;
+	}
+
+	public Rule getRle() {
+		return rle;
 	}
 
 	public ArrayList<Player> getGamePlayers() {
@@ -65,6 +71,10 @@ public class GamePlay extends GamePlayDomainModel {
 			}
 		}
 		return GPPHReturn;
+	}
+	
+	public void addGamePlayCommonHand(GamePlayPlayerHand GPCH) {
+		GameCommonHand.add(GPCH);
 	}
 	
 	

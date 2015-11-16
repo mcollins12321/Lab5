@@ -140,6 +140,13 @@ public class HandDomainModel {
 	public void setbScored(boolean bScored) {
 		this.bScored = bScored;
 	}
+	public int getbNatural() {
+		return bNatural;
+	}
+
+	public void setbNatural(int bNatural) {
+		this.bNatural = bNatural;
+	}
 
 
 }

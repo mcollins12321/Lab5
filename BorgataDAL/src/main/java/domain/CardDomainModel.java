@@ -16,6 +16,7 @@ public class CardDomainModel {
 	private boolean Wild = false;
 	@XmlElement 
 	private String CardImg;
+	private int CardNbr;
 	
 	 
 	/**
@@ -38,10 +39,11 @@ public class CardDomainModel {
 		
 	}
 
-	public CardDomainModel(eSuit suit, eRank rank, boolean Wild) {
+	public CardDomainModel(eSuit suit, eRank rank, boolean Wild, int CardNbr) {
 		Suit = suit; 
 		Rank = rank; 
 		this.Wild = Wild;
+		this.CardImg = CardNbr + ".png";
 	}
 	
 	/**
@@ -73,6 +75,20 @@ public class CardDomainModel {
 	public String getCardImg()
 	{
 		return this.CardImg;
+	}
+
+	/**
+	 * @return the cardNbr
+	 */
+	public int getCardNbr() {
+		return CardNbr;
+	}
+
+	/**
+	 * @param cardNbr the cardNbr to set
+	 */
+	public void setCardNbr(int cardNbr) {
+		CardNbr = cardNbr;
 	}
 
 	/**
