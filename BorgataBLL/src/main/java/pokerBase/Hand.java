@@ -12,27 +12,26 @@ import domain.CardDomainModel;
 import enums.eCardNo;
 import enums.eHandStrength;
 import enums.eRank;
+import enums.eSuit; 
 
 public class Hand extends HandDomainModel {
+	
+	private static Deck nonWdeck = new Deck(); 
 
 	public Hand()
 	{
 		
 	}
-	public void  AddCardToHand(Card c)
-	{
-		if (this.getCards() == null)
-		{
-			setCardsInHand(new ArrayList<CardDomainModel>());
+	
+	private Hand(ArrayList<Card> Cards) {
+		ArrayList<CardDomainModel> cdm = new ArrayList<CardDomainModel>();
+
+		for (Card c : Cards) {
+			cdm.add(new Card(c.getSuit(), c.getRank(), c.getWild(), c.getCardNbr()));
 		}
-		this.getCards().add(c);
+		this.setCardsInHand(cdm);
 	}
-	
-	public Card  GetCardFromHand(int location)
-	{
-		return (Card) getCards().get(location);
-	}
-	
+
 	public Hand(Deck d) {
 		ArrayList<CardDomainModel> Import = new ArrayList<CardDomainModel>();
 		for (int x = 0; x < 5; x++) {
@@ -40,19 +39,104 @@ public class Hand extends HandDomainModel {
 		}
 		setCardsInHand(Import);
 	}
+	
+	public void  AddCardToHand(Card c){
+		if (this.getCards() == null){
+			setCardsInHand(new ArrayList<CardDomainModel>());
+		}
+		this.getCards().add(c);
+	}
+	
+	public Card  GetCardFromHand(int loc){
+		return (Card) getCards().get(loc);
+	}
+	
+	public ArrayList<Card> getCardsInHand() {
+		ArrayList<Card> cardsInHand = new ArrayList<Card>();
 
+		for (CardDomainModel cdm : this.getCards()) {
+			Card c = new Card(cdm.getSuit(), cdm.getRank(), cdm.getWild(), cdm.getCardNbr());
+			cardsInHand.add(c);
+		}
+		return cardsInHand;
+	}	
 
 	public static Hand EvalHand(ArrayList<CardDomainModel> SeededHand) {
-		
 		Deck d = new Deck();
 		Hand h = new Hand(d);
 		h.setCardsInHand(SeededHand);
 		
-
 		return h;
 	}
+	
+	//8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+	/**
+	 * Takes in a hand and analyzes each card. If the card is a Joker or wild
+	 * card, it sets the hand as unnatural. Then, it calls SubstituteHand on the
+	 * hand. Ultimately, what is returned is an ArrayList of Hand ranging from 1
+	 * hand (if there were not Jokers/wild cards to millions of hands.
+	 * 
+	 * @param h
+	 * @return
+	 */
+	private static ArrayList<Hand> ExplodeHands(Hand h) {
+		ArrayList<Hand> allHands = new ArrayList<Hand>();
+		allHands.add(h);
 
+		for (int i = 0; i < h.getCards().size(); i++) {
+			if (h.getCards().get(i).getRank().getRank() == eRank.JOKER.getRank()
+					|| h.getCards().get(i).getWild() == true) {
+				h.setbNatural(0); // Hand is not natural
+			}
+		}
 
+		for (int i = 0; i < h.getCards().size(); i++){
+			allHands = SubstituteHand(allHands, i);
+		}
+
+		return allHands; // ArrayList of all possible Hands
+
+	}
+
+	/**
+	 * Determines number of Jokers/Wilds in Hand and substitutes each for every
+	 * other card value in a natural Deck. Each Hand combination is then stored
+	 * in an ArrayList of all possible Hands and returned to the caller.
+	 * 
+	 * @param originalHands
+	 * @param SubCardNo
+	 * @return
+	 */
+	private static ArrayList<Hand> SubstituteHand(ArrayList<Hand> originalHands, int SubCardNo) {
+
+		ArrayList<Hand> subHands = new ArrayList<Hand>();
+
+		for (Hand h : originalHands) {
+			ArrayList<Card> c = h.getCardsInHand();
+			if (c.get(SubCardNo).getRank().getRank() == eRank.JOKER.getRank() || c.get(SubCardNo).getWild() == true) {
+				for (CardDomainModel JokerSub : nonWdeck.getCards()) {
+					ArrayList<Card> subCards = new ArrayList<Card>();
+					subCards.add((Card) JokerSub); // Adds substitute card for
+											// Joker/wild. Will iterate through
+											// entire naural deck
+
+					for (int a = 0; a < 5; a++) { // Adds original cards that
+													// are not wild/Jokers
+						if (SubCardNo != a) {
+							subCards.add((Card) h.getCards().get(a));
+						}
+					}
+					Hand subHand = new Hand(subCards); // Creating new subHand
+					subHands.add(subHand);
+				}
+			} else {
+				subHands.add(h); // If no wilds/Jokers, subHands is an ArrayList
+									// of 1 element, the original Hand
+			}
+		}
+		return subHands;
+	}
+	//8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 	public void EvalHand() {
 		// Evaluates if the hand is a flush and/or straight then figures out
 		// the hand's strength attributes
@@ -362,6 +446,7 @@ public class Hand extends HandDomainModel {
 	/**
 	 * Custom sort to figure the best hand in an array of hands
 	 */
+	
 	public static Comparator<Hand> HandRank = new Comparator<Hand>() {
 
 		public int compare(Hand h1, Hand h2) {
@@ -384,54 +469,72 @@ public class Hand extends HandDomainModel {
 				return result;
 			}
 
-		
-			if (h2.getKicker().get(eCardNo.FirstCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.FirstCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}
 			
-			if (h2.getKicker().get(eCardNo.SecondCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.SecondCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}
-			if (h2.getKicker().get(eCardNo.ThirdCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.ThirdCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}
-			
-			if (h2.getKicker().get(eCardNo.FourthCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.FourthCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}			
+			if ((h2.getKicker() == null) || (h1.getKicker() == null)){
 				return 0;
+			}
+			
+
+			try{
+				if (h2.getKicker().size() >= eCardNo.FirstCard.getCardNo() +1 ){
+					if (h1.getKicker().size() >= eCardNo.FirstCard.getCardNo() +1){
+						result = h2.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0){
+						return result;
+					}
+				}				
+			}
+			catch (Exception e){				
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);
+			}	
+			try {
+				if (h2.getKicker().size() >= eCardNo.SecondCard.getCardNo() +1 ){
+					if (h1.getKicker().size() >= eCardNo.SecondCard.getCardNo() +1){
+						result = h2.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0){
+						return result;
+					}
+				}				
+			}
+			catch (Exception e){
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);				
+			}			
+			
+			try{
+				if (h2.getKicker().size() >= eCardNo.ThirdCard.getCardNo() +1 ){
+					if (h1.getKicker().size() >= eCardNo.ThirdCard.getCardNo() +1){
+						result = h2.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0){
+						return result;
+					}
+				}				
+			}
+			catch (Exception e){
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);
+			}
+			
+			try{
+				if (h2.getKicker().size() >= eCardNo.FourthCard.getCardNo() +1 ){
+					if (h1.getKicker().size() >= eCardNo.FourthCard.getCardNo() +1){
+						result = h2.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0){
+						return result;
+					}
+				}				
+			}
+			catch (Exception e){
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e);				
+			}
+			
+			return 0;
 		}
 	};
 }

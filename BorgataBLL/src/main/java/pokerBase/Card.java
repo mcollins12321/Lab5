@@ -23,12 +23,12 @@ public final class Card extends CardDomainModel {
 	 * @param suit
 	 * @param rank
 	 */
-	public Card(eSuit suit, eRank rank, int CardNbr ) {		
-		super(suit, rank, CardNbr);		
+	public Card(eSuit suit, eRank rank, int cardNum ) {		
+		super(suit, rank, cardNum);		
 	}
 
-	public Card(eSuit suit, eRank rank, boolean Wild) {
-		super(suit, rank, Wild);
+	public Card(eSuit suit, eRank rank, boolean Wild, int cardNum) {
+		super(suit, rank, Wild, cardNum);
 	}
 	
 

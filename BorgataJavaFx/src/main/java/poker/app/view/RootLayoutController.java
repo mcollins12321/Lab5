@@ -46,34 +46,7 @@ public class RootLayoutController implements Initializable {
     
     
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-/*		CheckMenuItem item1 = new CheckMenuItem("5 card stud");
-        item1.selectedProperty().addListener(new ChangeListener(){
-            @Override
-            public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-               mainApp.setiGameType(1);              
-            }            
-          });
-		
-		
-		mnuGame.getItems().add(item1);
-		
-		
-		
-		CheckMenuItem item2 = new CheckMenuItem("5 card draw");
-        item2.selectedProperty().addListener(new ChangeListener(){
-            @Override
-            public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-               mainApp.setiGameType(2);              
-            }            
-          });
-		
-		
-		mnuGame.getItems().add(item2);*/
-		
-		
-	}
+	public void initialize(URL location, ResourceBundle resources) {}
     
     
     /**
