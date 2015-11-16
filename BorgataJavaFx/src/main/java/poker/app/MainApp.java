@@ -30,6 +30,7 @@ import poker.app.view.PokerTableController;
 import poker.app.view.RootLayoutController;
 import pokerBase.Player;
 import pokerBase.Table;
+import pokerEnums.eGame;
 
 public class MainApp extends Application {
 
@@ -39,7 +40,7 @@ public class MainApp extends Application {
 	
 	private Table tbl;
 	
-	private int iGameType;
+	
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -134,11 +135,11 @@ public class MainApp extends Application {
 	}
 
 	public int getiGameType() {
-		return iGameType;
+		return gme;
 	}
 
-	public void setiGameType(int iGameType) {
-		this.iGameType = iGameType;
+	public void setiGameType(eGame gme) {
+		this.gme = gme;
 	}
 	
 	

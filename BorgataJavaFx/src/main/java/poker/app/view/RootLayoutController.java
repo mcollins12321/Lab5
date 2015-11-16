@@ -15,6 +15,15 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import poker.app.MainApp;
+import pokerBase.Card;
+import pokerBase.Deck;
+import pokerBase.GamePlay;
+import pokerBase.GamePlayPlayerHand;
+import pokerBase.Hand;
+import pokerBase.Player;
+import pokerBase.Rule;
+import pokerEnums.eGame;
+
 
 /**
  * The controller for the root layout. The root layout provides the basic
@@ -128,6 +137,35 @@ public class RootLayoutController implements Initializable {
     @FXML
     private void handleShowBirthdayStatistics() {
     }
+    
+    private eGame FiveStudOneJoker= new int FiveStudOneJoker;
+    private eGame FiveStudTwoJoker = new int FiveStudTwoJoker;
+    private eGame FiveDraw = new int FiveDraw;
+    private eGame SevenDraw = new int SevenDraw;
+    private eGame TexasHoldEm = new int TexasHoldEm;
+    private eGame Omaha = new int Omaha;
+    
+    private void handle5CardJoker() {
+    	setiGameType(FiveStudOneJoker);
+    }
+    
+    private void handle5CardWildCardJoker() {
+    	setiGameType(FiveStudTwoJoker);
+    }
+    private void handle5CardDraw() {
+    	setiGameType(FiveDraw);
+    }
+    private void handle7CardDraw() {
+    	setiGameType(SevenDraw);
+    }
+    private void handleTexasHoldEm() {
+    	setiGameType(TexasHoldEm);
+    }
+    private void handleOmaha() {
+    	setiGameType(Omaha);
+    }
+    
+    
 
 
 
